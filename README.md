@@ -1,4 +1,4 @@
-# Projeto_Integrador_StudioFotografico
+# Projeto_Integrador_ArkaDocs
 Este projeto GED (Gestão Eletrônica de Documentos) foi desenvolvido utilizando a linguagem Java, juntamente com o Maven. Além disso, integramos o JPA Hibernate ao Spring Boot para facilitar o desenvolvimento e garantir uma estrutura de código clean e orientada a objetos.
 
 # Tecnologias Utilizadas
