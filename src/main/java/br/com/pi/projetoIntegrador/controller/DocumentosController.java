@@ -3,6 +3,11 @@ package br.com.pi.projetoIntegrador.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.pi.projetoIntegrador.model.Documentos;
-import br.com.pi.projetoIntegrador.model.Usuario;
 import br.com.pi.projetoIntegrador.service.DocumentoService;
-import br.com.pi.projetoIntegrador.service.UsuarioService;
 
 @RestController
 @RequestMapping("/documentos")
@@ -62,6 +65,22 @@ public class DocumentosController {
 		documentoService.excluirDocumento(id);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@GetMapping("/{id}/download")
+    public ResponseEntity<Resource> downloadDocumento(@PathVariable Integer id) {
+        Documentos documento = documentoService.consultarDocumentoId(id);
+        if (documento == null || documento.getConteudoArquivo() == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        ByteArrayResource resource = new ByteArrayResource(documento.getConteudoArquivo());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + documento.getNomeArmazenamento())
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .contentLength(documento.getConteudoArquivo().length)
+                .body(resource);
+    }
 	
 }
 

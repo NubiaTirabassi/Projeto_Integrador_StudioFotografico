@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Lob;
 
 @Entity
 @Table(name = "Documentos")
@@ -27,6 +28,10 @@ public class Documentos {
     @ManyToOne
     @JoinColumn(name = "idGrupo", nullable=false, referencedColumnName = "id")
     private Grupos grupos;
+    
+    @Lob
+    @Column(name = "conteudoArquivo", nullable=false)
+    private byte[] conteudoArquivo;
 
 	public Integer getId() {
 		return id;
@@ -60,4 +65,14 @@ public class Documentos {
 		this.grupos = grupos;
 	}
 
+	public byte[] getConteudoArquivo() {
+		return conteudoArquivo;
+	}
+
+	public void setConteudoArquivo(byte[] conteudoArquivo) {
+		this.conteudoArquivo = conteudoArquivo;
+	}
+
+
+    
 }
